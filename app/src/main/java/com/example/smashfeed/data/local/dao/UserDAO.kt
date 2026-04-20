@@ -18,4 +18,6 @@ interface UserDAO {
     @Delete
     fun delete(userEntity: UserEntity)
 
+    // Futuras Querys para usuarios
+
 }
