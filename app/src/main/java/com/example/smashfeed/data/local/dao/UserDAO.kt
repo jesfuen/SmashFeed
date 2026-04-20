@@ -1,5 +1,6 @@
 package com.example.smashfeed.data.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -17,6 +18,9 @@ interface UserDAO {
 
     @Delete
     fun delete(userEntity: UserEntity)
+
+    @Query("SELECT * FROM user_table")
+    fun getAllUsers(): LiveData<List<UserEntity>>
 
     // Futuras Querys para usuarios
 

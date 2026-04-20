@@ -16,4 +16,6 @@ interface PostDAO {
 
     @Delete
     fun delete(postEntity: PostEntity)
+
+    // Querys de Post
 }
