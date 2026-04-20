@@ -9,7 +9,7 @@ import com.example.smashfeed.data.local.entity.PostEntity
 @Dao
 interface PostDAO {
     @Insert
-    fun insert(postEntity: PostEntity)
+    fun insert(vararg postEntity: PostEntity)
 
     @Update
     fun update(postEntity: PostEntity)

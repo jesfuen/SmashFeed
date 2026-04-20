@@ -11,5 +11,6 @@ data class PostEntity(
     val likes: Int,
     val saved: Int,
     val description: String,
-    val path: String
+    val path: String,
+    val date: String
 )
