@@ -16,15 +16,15 @@ class UserRepository(
         }
     }
 
-    fun addUser(user: User) {
+    suspend fun addUser(user: User) {
         userDAO.insert(user.toEntity())
     }
 
-    fun updateUser(user: User) {
+    suspend fun updateUser(user: User) {
         userDAO.update(user.toEntity())
     }
 
-    fun deleteUser(user: User) {
+    suspend fun deleteUser(user: User) {
         userDAO.delete(user.toEntity())
     }
 }

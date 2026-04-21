@@ -11,13 +11,13 @@ import com.example.smashfeed.data.local.entity.PostEntity
 @Dao
 interface PostDAO {
     @Insert
-    fun insert(vararg postEntity: PostEntity)
+    suspend fun insert(vararg postEntity: PostEntity)
 
     @Update
-    fun update(postEntity: PostEntity)
+    suspend fun update(postEntity: PostEntity)
 
     @Delete
-    fun delete(postEntity: PostEntity)
+    suspend fun delete(postEntity: PostEntity)
 
     // Querys de Post
     @Query("SELECT * FROM post_table")

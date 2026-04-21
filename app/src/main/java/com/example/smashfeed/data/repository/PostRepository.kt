@@ -16,15 +16,15 @@ class PostRepository(
         }
     }
 
-    fun addPost(post: Post) {
+    suspend fun addPost(post: Post) {
         postDAO.insert(post.toEntity())
     }
 
-    fun updatePost(post: Post) {
+    suspend fun updatePost(post: Post) {
         postDAO.update(post.toEntity())
     }
 
-    fun deletePost(post: Post) {
+    suspend fun deletePost(post: Post) {
         postDAO.delete(post.toEntity())
     }
 }

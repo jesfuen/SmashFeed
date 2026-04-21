@@ -11,13 +11,13 @@ import com.example.smashfeed.data.local.entity.UserEntity
 @Dao
 interface UserDAO {
     @Insert
-    fun insert(vararg userEntity: UserEntity)
+    suspend fun insert(vararg userEntity: UserEntity)
 
     @Update
-    fun update(userEntity: UserEntity)
+    suspend fun update(userEntity: UserEntity)
 
     @Delete
-    fun delete(userEntity: UserEntity)
+    suspend fun delete(userEntity: UserEntity)
 
     @Query("SELECT * FROM user_table")
     fun getAllUsers(): LiveData<List<UserEntity>>
