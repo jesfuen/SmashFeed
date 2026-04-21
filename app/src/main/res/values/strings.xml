@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">SmashFeed</string>
+    <string name="app_name">SMASHFEED</string>
+    <string name="nuevo_post">Nuevo post</string>
 </resources>
