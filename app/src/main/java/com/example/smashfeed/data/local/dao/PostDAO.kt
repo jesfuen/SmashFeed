@@ -5,8 +5,10 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.example.smashfeed.data.local.entity.PostEntity
+import com.example.smashfeed.data.local.entity.PostWithUserEntity
 
 @Dao
 interface PostDAO {
@@ -22,4 +24,8 @@ interface PostDAO {
     // Querys de Post
     @Query("SELECT * FROM post_table")
     fun getAllPosts(): LiveData<List<PostEntity>>
+
+    @Transaction
+    @Query("SELECT * FROM post_table")
+    fun getAllPostsWithUser(): LiveData<List<PostWithUserEntity>>
 }
