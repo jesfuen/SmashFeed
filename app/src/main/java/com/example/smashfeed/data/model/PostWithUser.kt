@@ -1,4 +1,6 @@
 package com.example.smashfeed.data.model
 
-class PostWithUser {
-}
+data class PostWithUser(
+    val user: User,
+    val post: Post
+)
