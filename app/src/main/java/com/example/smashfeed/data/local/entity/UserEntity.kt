@@ -7,8 +7,10 @@ import androidx.room.PrimaryKey
 data class UserEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
+    val username: String,
+    val password: String,
     val name: String,
-    val avatar: String, // Con la ruta a la imagen
+    val avatar: String,
     val level: Double,
     val bio: String,
     val followers: Int,

@@ -19,6 +19,7 @@ fun PostEntity.toDomain(): Post {
         userId = this.userId,
         likes = this.likes,
         saved = this.saved,
+        isLiked = this.isLiked,
         description = this.description,
         path = this.path,
         date = parsedDate
@@ -31,6 +32,7 @@ fun Post.toEntity(): PostEntity {
         userId = this.userId,
         likes = this.likes,
         saved = this.saved,
+        isLiked = this.isLiked,
         description = this.description,
         path = this.path,
         date = this.date.toString()

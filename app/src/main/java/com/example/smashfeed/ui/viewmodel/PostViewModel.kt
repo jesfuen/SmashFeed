@@ -35,6 +35,20 @@ class PostViewModel(context: Context): ViewModel() {
         }
     }
 
+    fun toggleLike(post: Post) {
+        val updated = if (post.isLiked)
+            post.copy(isLiked = false, likes = post.likes - 1)
+        else
+            post.copy(isLiked = true, likes = post.likes + 1)
+        updatePost(updated)
+    }
+
+    fun toggleSave(post: Post) {
+        val updated = post.copy(saved = !post.saved)
+        updatePost(updated)
+    }
+
+
     fun deletePost(post: Post) {
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.deletePost(post)

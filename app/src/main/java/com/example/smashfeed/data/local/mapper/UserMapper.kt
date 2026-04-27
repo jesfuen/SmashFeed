@@ -6,6 +6,8 @@ import com.example.smashfeed.data.model.User
 fun UserEntity.toDomain(): User {
     return User(
         id = this.id,
+        username = this.username,
+        password = this.password,
         name = this.name,
         avatar = this.avatar,
         level = this.level,
@@ -19,6 +21,8 @@ fun UserEntity.toDomain(): User {
 fun User.toEntity(): UserEntity {
     return UserEntity(
         id = this.id,
+        username = this.username,
+        password = this.password,
         name = this.name,
         avatar = this.avatar,
         level = this.level,

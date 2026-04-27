@@ -14,4 +14,10 @@
         <item name="android:fontFamily">@font/fugaz_one_regular</item>
         <item name="android:letterSpacing">0.1</item>
     </style>
+
+    <style name="CircleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+
+    </style>
 </resources>

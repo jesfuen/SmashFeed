@@ -3,6 +3,7 @@ package com.example.smashfeed.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.smashfeed.data.local.dao.UserDAO
+import com.example.smashfeed.data.local.entity.UserEntity
 import com.example.smashfeed.data.local.mapper.toDomain
 import com.example.smashfeed.data.local.mapper.toEntity
 import com.example.smashfeed.data.model.User
@@ -26,5 +27,29 @@ class UserRepository(
 
     suspend fun deleteUser(user: User) {
         userDAO.delete(user.toEntity())
+    }
+
+    suspend fun loginOrRegister(username: String, password: String): User? {
+        val existing = userDAO.getUserByUsername(username)
+        return when {
+            existing == null -> {
+                userDAO.insert(
+                    UserEntity(
+                        username = username,
+                        password = password,
+                        name = username,
+                        avatar = "",
+                        level = 0.0,
+                        bio = "",
+                        followers = 0,
+                        followed = 0,
+                        totalPosts = 0
+                    )
+                )
+                userDAO.getUserByUsername(username)?.toDomain()
+            }
+            existing.password == password -> existing.toDomain()
+            else -> null
+        }
     }
 }

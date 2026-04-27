@@ -9,7 +9,7 @@ import com.example.smashfeed.data.local.dao.UserDAO
 import com.example.smashfeed.data.local.entity.PostEntity
 import com.example.smashfeed.data.local.entity.UserEntity
 
-@Database(entities = [UserEntity::class, PostEntity::class], version = 1)
+@Database(entities = [UserEntity::class, PostEntity::class], version = 6)
 abstract class SmashFeedRoomDatabase : RoomDatabase() {
     abstract fun userDAO(): UserDAO
     abstract fun postDAO(): PostDAO
@@ -27,7 +27,9 @@ abstract class SmashFeedRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     SmashFeedRoomDatabase::class.java, "smashfeed_database"
-                ).allowMainThreadQueries().build()
+                ).allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 return instance
             }
