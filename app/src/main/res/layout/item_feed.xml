@@ -88,7 +88,7 @@
         android:layout_marginBottom="12dp"
         android:textColor="@color/username"
         android:textSize="14sp"
-        android:maxLines="2"
+        android:maxLines="1"
         android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

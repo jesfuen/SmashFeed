@@ -20,7 +20,7 @@ class PostRepository(
 
     fun getAllPostsWithUser(): LiveData<List<PostWithUser>> {
         return postDAO.getAllPostsWithUser().map { listPostsWithUser ->
-            listPostsWithUser.map { it.toDomain() }
+            listPostsWithUser.mapNotNull { it.toDomain() }
         }
     }
 
@@ -35,4 +35,7 @@ class PostRepository(
     suspend fun deletePost(post: Post) {
         postDAO.delete(post.toEntity())
     }
+
+    suspend fun incrementLikes(postId: Int) = postDAO.incrementLikes(postId)
+    suspend fun decrementLikes(postId: Int) = postDAO.decrementLikes(postId)
 }

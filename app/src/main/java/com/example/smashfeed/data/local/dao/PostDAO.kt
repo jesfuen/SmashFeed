@@ -28,4 +28,10 @@ interface PostDAO {
     @Transaction
     @Query("SELECT * FROM post_table")
     fun getAllPostsWithUser(): LiveData<List<PostWithUserEntity>>
+
+    @Query("UPDATE post_table SET likes = likes + 1 WHERE id = :postId")
+    suspend fun incrementLikes(postId: Int)
+
+    @Query("UPDATE post_table SET likes = likes - 1 WHERE id = :postId")
+    suspend fun decrementLikes(postId: Int)
 }

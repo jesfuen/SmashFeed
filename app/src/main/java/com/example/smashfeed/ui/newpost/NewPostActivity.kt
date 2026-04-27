@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.smashfeed.R
 import com.example.smashfeed.data.model.Post
 import com.example.smashfeed.databinding.ActivityNewPostBinding
+import com.example.smashfeed.ui.login.LoginActivity
 import com.example.smashfeed.ui.viewmodel.PostViewModel
 import com.example.smashfeed.ui.viewmodel.PostViewModelFactory
 import java.io.File
@@ -50,6 +51,9 @@ class NewPostActivity : AppCompatActivity() {
             pickImageLauncher.launch("image/*")
         }
 
+        val userId = getSharedPreferences(LoginActivity.PREFS_NAME, MODE_PRIVATE)
+            .getInt(LoginActivity.KEY_USER_ID, -1)
+
         binding.btnPost.setOnClickListener {
             val description = binding.etDescription.text.toString().trim()
             val uri = selectedImageUri
@@ -65,7 +69,7 @@ class NewPostActivity : AppCompatActivity() {
 
             val post = Post(
                 id = null,
-                userId = 1,
+                userId = userId,
                 likes = 0,
                 description = description,
                 path = copyImageToInternal(uri),

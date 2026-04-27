@@ -9,8 +9,6 @@ data class PostEntity(
     val id: Int? = null,
     val userId: Int,
     val likes: Int,
-    val saved: Boolean = false,
-    val isLiked: Boolean = false,
     val description: String,
     val path: String,
     val date: String

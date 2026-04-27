@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
 
         userViewModel.loginResult.observe(this) { user ->
             if (user != null) {
-                saveSession(user.username)
+                saveSession(user.id!!, user.username)
                 goToFeed()
             } else {
                 binding.editPassword.error = "Usuario o contraseña incorrectos"
@@ -55,14 +55,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveSession(username: String) {
+    private fun saveSession(userId: Int, username: String) {
         getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit {
+            putInt(KEY_USER_ID, userId)
             putString(KEY_USERNAME, username)
         }
     }
 
     private fun isLoggedIn(): Boolean {
-        return getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).contains(KEY_USERNAME)
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.contains(KEY_USERNAME) && prefs.contains(KEY_USER_ID)
     }
 
     private fun goToFeed() {
@@ -73,6 +75,7 @@ class LoginActivity : AppCompatActivity() {
 
     companion object {
         const val PREFS_NAME = "smashfeed_prefs"
+        const val KEY_USER_ID = "user_id"
         const val KEY_USERNAME = "username"
     }
 }

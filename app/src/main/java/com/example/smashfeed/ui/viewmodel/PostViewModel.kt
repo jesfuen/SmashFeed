@@ -1,26 +1,81 @@
 package com.example.smashfeed.ui.viewmodel
 
 import android.content.Context
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smashfeed.data.local.SmashFeedRoomDatabase
+import com.example.smashfeed.data.local.dao.UserLikeDAO
+import com.example.smashfeed.data.local.dao.UserSavedDAO
+import com.example.smashfeed.data.local.entity.UserLikeEntity
+import com.example.smashfeed.data.local.entity.UserSavedEntity
 import com.example.smashfeed.data.model.Post
 import com.example.smashfeed.data.model.PostWithUser
 import com.example.smashfeed.data.repository.PostRepository
+import com.example.smashfeed.ui.login.LoginActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PostViewModel(context: Context): ViewModel() {
+class PostViewModel(context: Context) : ViewModel() {
+
     private val postRepository: PostRepository
-    val posts: LiveData<List<Post>>
-    val postsWithUser: LiveData<List<PostWithUser>>
+    private val userLikeDAO: UserLikeDAO
+    private val userSavedDAO: UserSavedDAO
+
+    private val userId: Int = context.getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE)
+        .getInt(LoginActivity.KEY_USER_ID, -1)
+
+    val postsWithUser = MediatorLiveData<List<PostWithUser>>()
 
     init {
-        val postDao = SmashFeedRoomDatabase.getInstance(context).postDAO()
-        postRepository = PostRepository(postDao)
-        posts = postRepository.getAllPosts()
-        postsWithUser = postRepository.getAllPostsWithUser()
+        val db = SmashFeedRoomDatabase.getInstance(context)
+        postRepository = PostRepository(db.postDAO())
+        userLikeDAO = db.userLikeDAO()
+        userSavedDAO = db.userSavedDAO()
+
+        val rawPosts = postRepository.getAllPostsWithUser()
+        val likedIds = userLikeDAO.getLikedPostIds(userId)
+        val savedIds = userSavedDAO.getSavedPostIds(userId)
+
+        fun combine() {
+            val posts = rawPosts.value ?: return
+            val liked = likedIds.value ?: emptyList()
+            val saved = savedIds.value ?: emptyList()
+            postsWithUser.value = posts.map { pwu ->
+                pwu.copy(post = pwu.post.copy(
+                    isLiked = pwu.post.id in liked,
+                    saved = pwu.post.id in saved
+                ))
+            }
+        }
+
+        postsWithUser.addSource(rawPosts) { combine() }
+        postsWithUser.addSource(likedIds) { combine() }
+        postsWithUser.addSource(savedIds) { combine() }
+    }
+
+    fun toggleLike(post: Post) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val postId = post.id ?: return@launch
+            if (post.isLiked) {
+                userLikeDAO.delete(UserLikeEntity(userId, postId))
+                postRepository.decrementLikes(postId)
+            } else {
+                userLikeDAO.insert(UserLikeEntity(userId, postId))
+                postRepository.incrementLikes(postId)
+            }
+        }
+    }
+
+    fun toggleSave(post: Post) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val postId = post.id ?: return@launch
+            if (post.saved) {
+                userSavedDAO.delete(UserSavedEntity(userId, postId))
+            } else {
+                userSavedDAO.insert(UserSavedEntity(userId, postId))
+            }
+        }
     }
 
     fun addPost(post: Post) {
@@ -28,26 +83,6 @@ class PostViewModel(context: Context): ViewModel() {
             postRepository.addPost(post)
         }
     }
-
-    fun updatePost(post: Post) {
-        viewModelScope.launch(Dispatchers.IO) {
-            postRepository.updatePost(post)
-        }
-    }
-
-    fun toggleLike(post: Post) {
-        val updated = if (post.isLiked)
-            post.copy(isLiked = false, likes = post.likes - 1)
-        else
-            post.copy(isLiked = true, likes = post.likes + 1)
-        updatePost(updated)
-    }
-
-    fun toggleSave(post: Post) {
-        val updated = post.copy(saved = !post.saved)
-        updatePost(updated)
-    }
-
 
     fun deletePost(post: Post) {
         viewModelScope.launch(Dispatchers.IO) {
