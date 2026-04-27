@@ -1,11 +1,15 @@
 package com.example.smashfeed.ui.newpost
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
@@ -13,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.smashfeed.R
 import com.example.smashfeed.data.model.Post
 import com.example.smashfeed.databinding.ActivityNewPostBinding
+import com.example.smashfeed.ui.feed.FeedActivity
 import com.example.smashfeed.ui.login.LoginActivity
 import com.example.smashfeed.ui.viewmodel.PostViewModel
 import com.example.smashfeed.ui.viewmodel.PostViewModelFactory
@@ -28,10 +33,10 @@ class NewPostActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 selectedImageUri = it
-                binding.ivPreview.setImageURI(it)
-                binding.ivPreview.scaleType = ImageView.ScaleType.CENTER_CROP
-                binding.ivPreview.background = null
-                binding.ivPreview.imageTintList = null
+                binding.contentNewPost.ivPreview.setImageURI(it)
+                binding.contentNewPost.ivPreview.scaleType = ImageView.ScaleType.CENTER_CROP
+                binding.contentNewPost.ivPreview.background = null
+                binding.contentNewPost.ivPreview.imageTintList = null
             }
         }
 
@@ -39,31 +44,55 @@ class NewPostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_new_post)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.contentNewPost.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val postViewModel = ViewModelProvider(this, PostViewModelFactory(applicationContext))[PostViewModel::class.java]
-
-        binding.ivPreview.setOnClickListener {
-            pickImageLauncher.launch("image/*")
+        binding.contentNewPost.toolbar.setNavigationOnClickListener {
+            binding.drawerLayout.openDrawer(GravityCompat.START)
         }
 
+        binding.navigationView.setNavigationItemSelectedListener { item ->
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            when (item.itemId) {
+                R.id.nav_logout -> { logout(); true }
+                R.id.nav_feed -> {startActivity(Intent(this, FeedActivity::class.java)); true}
+                else -> false
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
+
+        val postViewModel = ViewModelProvider(this, PostViewModelFactory(applicationContext))[PostViewModel::class.java]
         val userId = getSharedPreferences(LoginActivity.PREFS_NAME, MODE_PRIVATE)
             .getInt(LoginActivity.KEY_USER_ID, -1)
 
-        binding.btnPost.setOnClickListener {
-            val description = binding.etDescription.text.toString().trim()
+        binding.contentNewPost.ivPreview.setOnClickListener {
+            pickImageLauncher.launch("image/*")
+        }
+
+        binding.contentNewPost.btnPost.setOnClickListener {
+            val description = binding.contentNewPost.etDescription.text.toString().trim()
             val uri = selectedImageUri
 
             if (uri == null) {
-                binding.etDescription.error = "Selecciona una imagen"
+                binding.contentNewPost.etDescription.error = "Selecciona una imagen"
                 return@setOnClickListener
             }
             if (description.isEmpty()) {
-                binding.etDescription.error = "La descripción no puede estar vacía"
+                binding.contentNewPost.etDescription.error = "La descripción no puede estar vacía"
                 return@setOnClickListener
             }
 
@@ -78,6 +107,13 @@ class NewPostActivity : AppCompatActivity() {
             postViewModel.addPost(post)
             finish()
         }
+    }
+
+    private fun logout() {
+        getSharedPreferences(LoginActivity.PREFS_NAME, MODE_PRIVATE).edit { clear() }
+        startActivity(Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        })
     }
 
     private fun copyImageToInternal(uri: Uri): String {

@@ -23,7 +23,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:navigationIcon="@drawable/ic_sports_tennis_24px"
+                app:navigationIcon="@drawable/ic_menu_24px"
                 app:title="SMASHFEED"
                 app:titleTextAppearance="@style/ToolbarTitle"
                 app:menu="@menu/menu_toolbar" />
