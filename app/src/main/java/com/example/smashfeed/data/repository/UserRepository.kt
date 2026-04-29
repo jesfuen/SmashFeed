@@ -17,6 +17,14 @@ class UserRepository(
         }
     }
 
+    fun getUserById(userId: Int): LiveData<User?> {
+        return userDAO.getUserById(userId).map { it?.toDomain() }
+    }
+
+    suspend fun incrementTotalPosts(userId: Int) {
+        userDAO.incrementTotalPosts(userId)
+    }
+
     suspend fun addUser(user: User) {
         userDAO.insert(user.toEntity())
     }

@@ -73,7 +73,7 @@ class FeedAdapter(
         }
 
         holder.tvDescription.text = post.description
-        holder.tvDescription.maxLines = if (isExpanded) Int.MAX_VALUE else 2
+        holder.tvDescription.maxLines = if (isExpanded) Int.MAX_VALUE else 1
         holder.tvDescription.ellipsize = if (isExpanded) null else android.text.TextUtils.TruncateAt.END
 
         if (isExpanded) {

@@ -38,4 +38,16 @@ class PostRepository(
 
     suspend fun incrementLikes(postId: Int) = postDAO.incrementLikes(postId)
     suspend fun decrementLikes(postId: Int) = postDAO.decrementLikes(postId)
+
+    fun getPostsWithUserByUserId(userId: Int): LiveData<List<PostWithUser>> {
+        return postDAO.getPostsWithUserByUserId(userId).map { list ->
+            list.mapNotNull { it.toDomain() }
+        }
+    }
+
+    fun getSavedPostsWithUser(userId: Int): LiveData<List<PostWithUser>> {
+        return postDAO.getSavedPostsWithUser(userId).map { list ->
+            list.mapNotNull { it.toDomain() }
+        }
+    }
 }

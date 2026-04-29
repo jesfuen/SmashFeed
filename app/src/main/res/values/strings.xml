@@ -3,4 +3,10 @@
     <string name="nuevo_post">Nuevo post</string>
     <string name="open_drawer">Abrir menú</string>
     <string name="close_drawer">Cerrar menú</string>
+    <string name="avatar_description">Foto de perfil</string>
+    <string name="post_image_description">Imagen del post</string>
+    <string name="tab_posts">Posts</string>
+    <string name="posts_count">%d\npublicaciones</string>
+    <string name="saved_count">%d\nguardados</string>
+    <string name="save">Guardar</string>
 </resources>

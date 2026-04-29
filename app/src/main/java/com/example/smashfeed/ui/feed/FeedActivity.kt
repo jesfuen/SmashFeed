@@ -17,6 +17,7 @@ import com.example.smashfeed.databinding.ActivityFeedBinding
 import com.example.smashfeed.ui.feed.adapter.FeedAdapter
 import com.example.smashfeed.ui.login.LoginActivity
 import com.example.smashfeed.ui.newpost.NewPostActivity
+import com.example.smashfeed.ui.profile.ProfileActivity
 import com.example.smashfeed.ui.viewmodel.PostViewModel
 import com.example.smashfeed.ui.viewmodel.PostViewModelFactory
 
@@ -43,7 +44,8 @@ class FeedActivity : AppCompatActivity() {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             when (item.itemId) {
                 R.id.nav_logout -> { logout(); true }
-                R.id.nav_feed -> { startActivity(Intent(this, FeedActivity::class.java)); true }
+                R.id.nav_feed -> { true }
+                R.id.nav_profile -> { startActivity((Intent(this, ProfileActivity::class.java))); true}
                 else -> false
             }
         }

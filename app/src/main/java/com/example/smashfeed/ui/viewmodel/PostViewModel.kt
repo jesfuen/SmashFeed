@@ -12,6 +12,7 @@ import com.example.smashfeed.data.local.entity.UserSavedEntity
 import com.example.smashfeed.data.model.Post
 import com.example.smashfeed.data.model.PostWithUser
 import com.example.smashfeed.data.repository.PostRepository
+import com.example.smashfeed.data.repository.UserRepository
 import com.example.smashfeed.ui.login.LoginActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
 class PostViewModel(context: Context) : ViewModel() {
 
     private val postRepository: PostRepository
+    private val userRepository: UserRepository
     private val userLikeDAO: UserLikeDAO
     private val userSavedDAO: UserSavedDAO
 
@@ -30,6 +32,7 @@ class PostViewModel(context: Context) : ViewModel() {
     init {
         val db = SmashFeedRoomDatabase.getInstance(context)
         postRepository = PostRepository(db.postDAO())
+        userRepository = UserRepository(db.userDAO())
         userLikeDAO = db.userLikeDAO()
         userSavedDAO = db.userSavedDAO()
 
@@ -81,6 +84,7 @@ class PostViewModel(context: Context) : ViewModel() {
     fun addPost(post: Post) {
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.addPost(post)
+            userRepository.incrementTotalPosts(userId)
         }
     }
 

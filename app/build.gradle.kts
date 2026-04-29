@@ -1,6 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+}
+secrets { // OPCIONAL PARA CONFIGURACIÓN AVANZADA
+    propertiesFileName = "app/secrets.properties"
+    defaultPropertiesFileName = "app/local.defaults.properties"
 }
 
 android {
@@ -54,6 +59,8 @@ dependencies {
     implementation("androidx.room:room-ktx:${room_version}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation("androidx.activity:activity-ktx:$arch_version")
+    implementation("com.google.android.gms:play-services-maps:20.0.0")
+    implementation("com.google.maps.android:android-maps-utils:4.2.0")
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -1,6 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background2"
+        tools:context=".ui.profile.ProfileActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/ic_menu_24px"
+                app:title="SMASHFEED"
+                app:titleTextAppearance="@style/ToolbarTitle"
+                app:menu="@menu/menu_toolbar" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:shapeAppearanceOverlay="@style/CircleImageStyle"
+            app:strokeColor="@color/smash_green"
+            app:strokeWidth="2dp"
+            android:layout_margin="8dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/avatar_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout"/>
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            app:layout_constraintTop_toTopOf="@id/ivAvatar"
+            app:layout_constraintStart_toEndOf="@id/ivAvatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp"
+            tools:text="Username"
+            android:textColor="@color/username"/>
+
+        <TextView
+            android:id="@+id/tvPosts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/tvUsername"
+            app:layout_constraintStart_toEndOf="@id/ivAvatar"
+            android:textSize="17sp"
+            tools:text="1\n publicación"
+            android:textColor="@color/username"/>
+
+        <TextView
+            android:id="@+id/tvSaved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvUsername"
+            app:layout_constraintStart_toEndOf="@id/tvPosts"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/username"
+            android:textSize="17sp"
+            tools:text="1\n guardado"/>
+
+        <TextView
+            android:id="@+id/tvBio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="9dp"
+            app:layout_constraintTop_toBottomOf="@id/ivAvatar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="14sp"
+            android:maxLength="80"
+            tools:text="Aqui va la biografia"
+            android:textColor="@color/username"/>
+
+        <Button
+            android:id="@+id/btnEditProfile"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Editar perfil"
+            android:textSize="13sp"
+            android:textColor="@color/username"
+            app:strokeColor="@color/username"
+            app:backgroundTint="#6A808080"
+            app:strokeWidth="1dp"
+            app:cornerRadius="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintTop_toBottomOf="@id/tvBio"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@color/background2"
+            app:tabTextColor="@color/username"
+            app:tabSelectedTextColor="@color/smash_green"
+            app:tabIndicatorColor="@color/smash_green"
+            app:tabIconTint="@color/username"
+            app:tabIndicatorFullWidth="true"
+            app:layout_constraintTop_toBottomOf="@id/btnEditProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_grid_view_24px" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_bookmark_24px" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@color/smash_green"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPostsGrid"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            tools:listitem="@layout/item_post_grid"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

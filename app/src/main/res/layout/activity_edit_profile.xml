@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background2"
+        tools:context=".ui.profile.EditProfileActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/ic_arrow_back_24px"
+                app:title="SMASHFEED"
+                app:titleTextAppearance="@style/ToolbarTitle" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:shapeAppearanceOverlay="@style/CircleImageStyle"
+            app:strokeColor="@color/smash_green"
+            app:strokeWidth="2dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/avatar_description"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="Nombre"
+            android:textColor="@color/username"
+            android:textColorHint="@color/username"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@id/ivAvatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <EditText
+            android:id="@+id/etBio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="Biografía"
+            android:textColor="@color/username"
+            android:textColorHint="@color/username"
+            android:inputType="textMultiLine"
+            android:maxLines="4"
+            android:maxLength="80"
+            app:layout_constraintTop_toBottomOf="@id/etName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/save"
+            android:backgroundTint="@color/smash_green"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/etBio"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

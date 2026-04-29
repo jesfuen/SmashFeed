@@ -22,7 +22,9 @@ fun PostEntity.toDomain(): Post {
         isLiked = false,
         description = this.description,
         path = this.path,
-        date = parsedDate
+        date = parsedDate,
+        latitude = this.latitude,
+        longitude = this.longitude
     )
 }
 
@@ -33,6 +35,8 @@ fun Post.toEntity(): PostEntity {
         likes = this.likes,
         description = this.description,
         path = this.path,
-        date = this.date.toString()
+        date = this.date.toString(),
+        latitude = this.latitude,
+        longitude = this.longitude
     )
 }

@@ -24,4 +24,10 @@ interface UserDAO {
 
     @Query("SELECT * FROM user_table WHERE username = :username LIMIT 1")
     suspend fun getUserByUsername(username: String): UserEntity?
+
+    @Query("SELECT * FROM user_table WHERE id = :userId LIMIT 1")
+    fun getUserById(userId: Int): LiveData<UserEntity?>
+
+    @Query("UPDATE user_table SET totalPosts = totalPosts + 1 WHERE id = :userId")
+    suspend fun incrementTotalPosts(userId: Int)
 }

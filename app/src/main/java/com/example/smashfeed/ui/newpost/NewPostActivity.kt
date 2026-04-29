@@ -19,6 +19,7 @@ import com.example.smashfeed.data.model.Post
 import com.example.smashfeed.databinding.ActivityNewPostBinding
 import com.example.smashfeed.ui.feed.FeedActivity
 import com.example.smashfeed.ui.login.LoginActivity
+import com.example.smashfeed.ui.profile.ProfileActivity
 import com.example.smashfeed.ui.viewmodel.PostViewModel
 import com.example.smashfeed.ui.viewmodel.PostViewModelFactory
 import java.io.File
@@ -59,7 +60,8 @@ class NewPostActivity : AppCompatActivity() {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             when (item.itemId) {
                 R.id.nav_logout -> { logout(); true }
-                R.id.nav_feed -> {startActivity(Intent(this, FeedActivity::class.java)); true}
+                R.id.nav_feed -> { startActivity(Intent(this, FeedActivity::class.java)); true}
+                R.id.nav_profile -> { startActivity((Intent(this, ProfileActivity::class.java))); true}
                 else -> false
             }
         }
@@ -102,7 +104,9 @@ class NewPostActivity : AppCompatActivity() {
                 likes = 0,
                 description = description,
                 path = copyImageToInternal(uri),
-                date = LocalDate.now()
+                date = LocalDate.now(),
+                latitude = 0.0,
+                longitude = 0.0
             )
             postViewModel.addPost(post)
             finish()

@@ -13,7 +13,7 @@ import com.example.smashfeed.data.local.entity.UserEntity
 import com.example.smashfeed.data.local.entity.UserLikeEntity
 import com.example.smashfeed.data.local.entity.UserSavedEntity
 
-@Database(entities = [UserEntity::class, PostEntity::class, UserLikeEntity::class, UserSavedEntity::class], version = 7)
+@Database(entities = [UserEntity::class, PostEntity::class, UserLikeEntity::class, UserSavedEntity::class], version = 8)
 abstract class SmashFeedRoomDatabase : RoomDatabase() {
     abstract fun userDAO(): UserDAO
     abstract fun postDAO(): PostDAO

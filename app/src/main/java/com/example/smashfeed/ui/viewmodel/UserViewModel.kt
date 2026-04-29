@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.smashfeed.data.local.SmashFeedRoomDatabase
 import com.example.smashfeed.data.model.User
 import com.example.smashfeed.data.repository.UserRepository
+import com.example.smashfeed.ui.login.LoginActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -18,10 +19,15 @@ class UserViewModel(context: Context): ViewModel() {
     private val _loginResult = MutableLiveData<User?>()
     val loginResult: LiveData<User?> get() = _loginResult
 
+    val currentUser: LiveData<User?>
+
     init {
+        val userId = context.getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE)
+            .getInt(LoginActivity.KEY_USER_ID, -1)
         val userDAO = SmashFeedRoomDatabase.getInstance(context).userDAO()
         userRepository = UserRepository(userDAO)
         users = userRepository.getAllUsers()
+        currentUser = userRepository.getUserById(userId)
     }
 
     fun login(username: String, password: String) {

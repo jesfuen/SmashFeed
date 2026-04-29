@@ -34,4 +34,12 @@ interface PostDAO {
 
     @Query("UPDATE post_table SET likes = likes - 1 WHERE id = :postId")
     suspend fun decrementLikes(postId: Int)
+
+    @Transaction
+    @Query("SELECT * FROM post_table WHERE userId = :userId")
+    fun getPostsWithUserByUserId(userId: Int): LiveData<List<PostWithUserEntity>>
+
+    @Transaction
+    @Query("SELECT p.* FROM post_table p INNER JOIN user_saved_table s ON p.id = s.postId WHERE s.userId = :userId")
+    fun getSavedPostsWithUser(userId: Int): LiveData<List<PostWithUserEntity>>
 }
